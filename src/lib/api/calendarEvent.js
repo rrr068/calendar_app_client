@@ -11,7 +11,7 @@ export const getCalendarEvents = () => {
     return;
   return client.get("/calendar_events", {
     headers: {
-      "access_token": Cookies.get("_access_token"),
+      "access-token": Cookies.get("_access_token"),
       client: Cookies.get("client"),
       uid: Cookies.get("uid"),
     },
@@ -19,5 +19,35 @@ export const getCalendarEvents = () => {
 };
 
 //予定作成
+export const createCalendarEvent = (params) => {
+  if (
+    !Cookies.get("_accesstoken") ||
+    !Cookies.get("_client") ||
+    !Cookies.get("_uid")
+  )
+    return;
+  return client.post("/calendar_events", params, {
+    headers: {
+      "access-token": Cookies.get("_access_token"),
+      client: Cookies.get("_client"),
+      uid: Cookies.get("_uid"),
+    },
+  });
+};
 
 //予定更新
+export const updateCalendarEvent = (params) => {
+  if (
+    !Cookies.get("_access_token") ||
+    !Cookies.get("_client") ||
+    !Cookies.get("_uid")
+  )
+    return;
+  return client.put(`/calendar_events/${params.calendarEventId}`, params, {
+    headers: {
+      "access-token": Cookies.get("_access_token"),
+      client: Cookies.get("_client"),
+      uid: Cookies.get("_uid"),
+    },
+  });
+};
